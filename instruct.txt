@@ -1,0 +1,99 @@
+1. Create environment
+   python -m venv venv
+   venv\Scripts\activate
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   export dependencies:
+   pip freeze > requirements.txt
+   
+3. Change HOST .env, (don't need)
+   DATABASE_URL = mysql+pymysql://root:password@192.168.2.59/mysql_db
+
+4. Start App
+   docker-compose up --build
+
+5. Stop container || Remove images, volumes, networks (if you need):
+   docker-compose down
+ 
+   docker rmi $(docker images -q) && docker volume rm $(docker volume ls -q) && docker network prune -f
+
+6. restart App
+   Start Docker Compose and skeep build
+   
+   docker-compose up -d
+
+   docker-compose up -d --build
+
+7. test api:
+
+   
+
+
+
+
+
+
+
+
+
+
+I. Construction
+
+📦 fastapi_project/
+│── 📂 app/                 # Source code chính
+│   ├── 📂 core/             # Cấu hình chính (database, security, settings, etc.)
+│   │   ├── config.py        # Cấu hình ứng dụng
+│   │   ├── database.py      # Kết nối & Session với DB
+│   │   ├── security.py      # Xử lý bảo mật (hash password, JWT, OAuth2)
+│   │   └── __init__.py
+│   │
+│   ├── 📂 models/           # Định nghĩa các Model của SQLAlchemy
+│   │   ├── user.py          # Model User
+│   │   ├── task.py          # Model Task (Thay thế Todo)
+│   │   └── __init__.py
+│   │
+│   ├── 📂 schemas/          # Pydantic Schemas (validate request/response)
+│   │   ├── user.py          # Schema User
+│   │   ├── task.py          # Schema Task
+│   │   └── __init__.py
+│   │
+│   ├── 📂 services/         # Xử lý logic nghiệp vụ
+│   │   ├── auth_service.py  # Xử lý xác thực (JWT, hash password)
+│   │   ├── task_service.py  # Xử lý logic của Task (thay Todo)
+│   │   ├── user_service.py  # Xử lý logic của User
+│   │   └── __init__.py
+│   │
+│   ├── 📂 routers/          # Chứa các router của ứng dụng (thay `endpoints/`)
+│   │   ├── auth.py          # Router xác thực (login, register)
+│   │   ├── users.py         # Router User
+│   │   ├── tasks.py         # Router Task (Thay thế todos.py)
+│   │   ├── admin.py         # Router Admin
+│   │   └── __init__.py
+│   │
+│   ├── 📂 migrations/       # Thư mục chứa Alembic migration files
+│   │   ├── versions/        # Chứa các file migration theo thời gian
+│   │   ├── env.py           # Cấu hình Alembic
+│   │   └── alembic.ini      # File cấu hình Alembic
+│   │
+│   ├── 📄 main.py           # Khởi chạy ứng dụng FastAPI
+│   ├── 📄 dependencies.py   # Khai báo các dependency dùng chung
+│   ├── 📄 __init__.py
+│
+│── 📂 tests/                # Chứa các test case cho ứng dụng (pytest)
+│   ├── test_users.py        # Test API Users
+│   ├── test_tasks.py        # Test API Tasks (Thay test_todos.py)
+│   └── conftest.py          # Cấu hình test (fixtures)
+│
+│── 📂 docker/               # Chứa file Dockerfile và cấu hình liên quan
+│   ├── Dockerfile           # File cấu hình Docker
+│   ├── docker-compose.yml   # File cấu hình Docker Compose
+│
+│── 📂 scripts/              # Chứa các script hỗ trợ (khởi tạo DB, seed data)
+│   ├── init_db.py           # Script khởi tạo dữ liệu database
+│
+│── 📄 .env                  # Cấu hình biến môi trường
+│── 📄 requirements.txt      # Danh sách package Python cần cài đặt
+│── 📄 README.md             # Hướng dẫn sử dụng dự án
